@@ -1,0 +1,30 @@
+a{
+    text-decoration: none;
+}
+
+.nav{
+    display: inline;
+}
+
+nav{
+    border-bottom: 1px black solid;
+    padding-bottom: 1%;
+    margin: 1%;
+}
+
+.inline{
+    display: inline;
+}
+
+th{
+    text-align: center;
+}
+
+td{
+    text-align: center;
+    padding: 0px 10px 0px 10px;
+}
+
+div #reply{
+    margin-left: 1.5%;
+}

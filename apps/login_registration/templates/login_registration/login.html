@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Login Page</title>
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'login_registration/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/normalize.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/morestyle.css' %}">
+    </head>
+    <body>
+
+        <nav>
+            <h4 class='nav'>Test App</h4>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/'>Home</a></h5>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/register'>Register</a></h5>
+        </nav>
+
+        <div id='login'>
+            <h3>Login</h3>
+            {% for message in messages %}
+                {% if 'warning' in message.tags %}
+                <ul>
+                    <li>{{ message }}</li>
+                </ul>
+                {% endif %}
+            {% endfor %}
+            <form action='/login' method='POST'>
+                {% csrf_token %}
+                <label for='email'>e-mail:</label>
+                <input name='email' type='text'/>
+                <label for='password'>Password:</label>
+                <input name='password' type='password'/>
+                <br>
+                <input type='submit' value='Login'/>
+                <br>
+                <a href='/register'>Don't have an account?</a>
+            </form>
+        </div>
+            
+    </body>
+</html>

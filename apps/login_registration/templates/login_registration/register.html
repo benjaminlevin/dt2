@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Registration Page</title>
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'login_registration/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/normalize.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/morestyle.css' %}">
+    </head>
+    <body>
+
+        <nav>
+            <h4 class='nav'>Test App</h4>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/'>Home</a></h5>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/login'>Login</a></h5>
+        </nav>
+
+        <div id='registration'>
+            <h3>Registration</h3>
+            {% for message in messages %}
+                {% if 'error' in message.tags %}
+                <ul>
+                    <li>{{ message }}</li>
+                </ul>
+                {% endif %}
+            {% endfor %}
+            <form action='/register' method='POST'>
+                {% csrf_token %}
+                <label for='first_name'>First Name:</label>
+                <input name='first_name' type='text'/>
+                <label for='last_name'>Last Name:</label>
+                <input name='last_name' type='text'/>
+                <label for='email'>e-mail:</label>
+                <input name='email' type='text'/>
+                <label for='birthday'>Date of Birth:</label>
+                <input name='birthday' type='date'/>
+                <h6 class='inline'><i>must be entered as YYYY-MM-DD for Safari and Firefox browsers</i></h6>
+                <label for='password'>Password:</label>
+                <input name='password' type='password'/>
+                <label for='confirm_password'>Confirm Password:</label>
+                <input name='confirm_password' type='password'/>
+                <br>
+                <input type='submit' value='Register'/>
+                <br>
+                <a href='/login'>Already have an account?</a>
+            </form>
+        </div>
+
+    </body>
+</html>

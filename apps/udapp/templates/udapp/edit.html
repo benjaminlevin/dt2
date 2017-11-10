@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Edit User</title>
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'udapp/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'udapp/css/normalize.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/morestyle.css' %}">
+    </head>
+    <body>
+
+        <nav>
+            <h4 class='nav'>Test App</h4>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/dashboard'>Dashboard</a></h5>
+            <h5 class='nav'> | </h5>
+
+            {% if request.session.id == user.id %}
+                <h5 class='nav'><b><a href='/users/edit/{{ request.session.id }}'>Profile</a></b></h5>
+            {% endif %}
+
+            {% if request.session.id != user.id %}
+                <h5 class='nav'><a href='/users/edit/{{ request.session.id }}'>Profile</a></h5>
+            {% endif %}
+
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/logout'>Logout</a></h5>
+        </nav>
+
+        <div id='edit'>
+            <h3>Edit User</h3>
+            {% for message in messages %}
+                {% if 'error' in message.tags %}
+                <ul>
+                    <li>{{ message }}</li>
+                </ul>
+                {% endif %}
+            {% endfor %}
+            <form action='/users/edit/{{ user.id }}' method='POST'>
+                {% csrf_token %}
+                <label for='email'>e-mail:</label>
+                <input name='email' type='text' value='{{ user.email }}'/>
+                <label for='first_name'>First Name:</label>
+                <input name='first_name' type='text' value='{{ user.first_name }}'/>
+                <label for='last_name'>Last Name:</label>
+                <input name='last_name' type='text' value='{{ user.last_name }}'/>
+                <label for='birthday'>Date of birth: </label>
+                <input name='birthday' type='date' value='{{ user.birthday }}'/>
+                <h6 class='nav'><i>must be entered as YYYY-MM-DD for Safari and Firefox browsers</i></h6>
+                {% if request.session.level == 9 %}
+                    <br>
+                    <label for='level'>User Level:</label>
+                    {% if user.level == 9 %}
+                    <select name='level'>
+                        <option value='5'>Normal</option>
+                        <option value='9' selected='selected'>Admin</option>
+                    </select>
+                    {% endif %}
+                    {% if user.level != 9 %}
+                    <select name='level'>
+                        <option value='5' selected='selected'>Normal</option>
+                        <option value='9'>Admin</option>
+                    </select>
+                    {% endif %}
+                {% endif %}
+                {% if request.session.level != 9 %}
+                    <input name='level' type='hidden' value='{{ user.level }}'/>
+                {% endif %}
+                <br>
+                <input type='submit' value='Save'/>
+            </form>
+        </div>
+
+        <div id='password'>
+            {% for message in messages %}
+                {% if 'warning' in message.tags %}
+                <ul>
+                    <li>{{ message }}</li>
+                </ul>
+                {% endif %}
+            {% endfor %}
+            <form action='/users/edit/password/{{ user.id }}' method='POST'>
+                {% csrf_token %}
+                <label for='password'>Password:</label>
+                <input name='password' type='password'/>
+                <label for='confirm_password'>Confirm Password:</label>
+                <input name='confirm_password' type='password'/>
+                <br>
+                <input type='submit' value='Change Password'>
+            </form>
+        </div>
+
+        {% if user.id == request.session.id %}
+
+            <div id='description'>
+                {% for message in messages %}
+                    {% if 'info' in message.tags %}
+                    <ul>
+                        <li>{{ message }}</li>
+                    </ul>
+                    {% endif %}
+                {% endfor %}
+                <form action='/users/edit/description/{{ user.id }}' method='POST'>
+                    {% csrf_token %}
+                    <label for='description'>Edit Description:</label>
+                    <input name='description' type='text' value='{{ user.description }}'/>
+                    <br>
+                    <input type='submit' value='Save'>
+                </form>
+            </div>
+            
+        {% endif %}
+
+    </body>
+</html>

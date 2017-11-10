@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>User</title>
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'udapp/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'udapp/css/normalize.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/morestyle.css' %}">
+    </head>
+    <body>
+
+        <nav>
+            <h4 class='nav'>Test App</h4>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/dashboard'>Dashboard</a></h5>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/users/edit/{{ request.session.id }}'>Profile</a></h5>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/logout'>Logout</a></h5>
+        </nav>
+
+        <h3>{{ user.first_name }} {{user.last_name}}</h3>
+        <h5>User ID: #{{ user.id}} </h5>
+        <h5>Registered: {{ user.created_at }}</h5>
+        <h5>e-mail address: {{ user.email }}</h5>
+        <h5>Birthday: {{ user.form_birthday }}</h5>
+        <h5>Description: {{ user.description }}</h5>
+        {% for message in messages %}
+            {% if 'info' in message.tags %}
+                <ul>
+                    <li>{{ message }}</li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+
+        <div id='messages'>
+
+            <form action='/users/message/{{ user.id }}/{{ request.session.id }}' method='POST'>
+                {% csrf_token %}
+                <label for='content'>Leave a message for {{ user.first_name }}:</label>
+                <input name='content' type='text'/> 
+                <input type='submit' value='Send Message'/>
+            </form>
+
+            {% for message in user_messages %}
+                <h4>
+                    <i>( {{ message.time_past }} {{ message.time }} )</i>
+                    <a href='/users/show/{{ message.author.id }}'>
+                        {{ message.author.first_name }} {{ message.author.last_name }}
+                    </a> wrote:
+                </h4>
+                <h4>{{ message.content }}</h4>
+                
+                <div id='reply'>
+                    {% for reply in message.reply_messages %}
+                        <h5>
+                            <i>
+                                {{ reply.content }} 
+                                --<a href='/users/show/{{ reply.author.id }}'>{{ reply.author.first_name }} {{ reply.author.last_name }}</a>
+                            </i>
+                            | {{ reply.time_past }} {{ reply.time }}
+                        </h5>
+                    {% endfor %}
+
+                    <form action='/users/reply/{{ message.id }}/{{ request.session.id }}' method='POST'>
+                        {% csrf_token %}
+                        <input name='content' type='text'/> 
+                        <input type='submit' value='Post Reply'/>
+                    </form>
+                </div>
+
+            {% endfor %}
+        </div>
+
+    </body>
+</html>

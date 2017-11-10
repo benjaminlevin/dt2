@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Remove User</title>
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'udapp/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'udapp/css/normalize.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/morestyle.css' %}">
+    </head>
+    <body>
+
+        <nav>
+            <h4 class='nav'>Test App</h4>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/dashboard'>Dashboard</a></h5>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='users/edit/{{ request.session.id }}'>Profile</a></h5>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/logout'>Logout</a></h5>
+        </nav>
+
+        <h3>Are you sure you want to remove {{ user.first_name }} {{ user.last_name}}?</h3>
+
+        <form action='/users/remove/{{ user.id }}' method='POST'>
+            {% csrf_token %}
+            <input name='uid' type='hidden' value='{{user.id}}'/>
+            <input type='submit' value='Delete User'/>
+        </form>
+
+        <a href='/dashboard'><button type=''>Go Back</button></a>
+        
+    </body>
+</html>

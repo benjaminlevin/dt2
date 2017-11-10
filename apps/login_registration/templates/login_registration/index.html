@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home Page</title>
+        {% load staticfiles %}
+        <link rel="stylesheet" href="{% static 'login_registration/css/style.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/normalize.css' %}">
+        <link rel="stylesheet" href="{% static 'login_registration/css/morestyle.css' %}">
+    </head>
+    <body>
+        
+        <nav>
+            <h4 class='nav'>Test App</h4>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/'><b>Home</b></a></h5>
+            <h5 class='nav'> | </h5>
+            <h5 class='nav'><a href='/login'>Sign In</a></h5>
+        </nav>
+
+        <h1>Welcome to the Test</h1>
+        <a href='/register'><button type=''>Register</button></a>
+    </body>
+</html>
